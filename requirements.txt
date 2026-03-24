@@ -1,3 +1,5 @@
 langchain-google-genai
 langchain
 streamlit
+langchain-community
+chromadb
