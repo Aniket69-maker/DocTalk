@@ -3,3 +3,4 @@ langchain
 streamlit
 langchain-community
 chromadb
+pypdf
