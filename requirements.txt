@@ -4,3 +4,4 @@ streamlit
 langchain-community
 chromadb
 pypdf
+pysqlite3-binary
