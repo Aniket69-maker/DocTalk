@@ -26,9 +26,10 @@ st.markdown("---")
 # --- 3. SECURE API SETUP ---
 # Pulls the key from Streamlit's Secret Manager (NOT hardcoded)
 if "GOOGLE_API_KEY" in st.secrets:
-    os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+    user_api_key = st.secrets["GOOGLE_API_KEY"]
+    os.environ["GOOGLE_API_KEY"] = user_api_key # Sets it for the system
 else:
-    st.error("⚠️ API Key Missing: Please add GOOGLE_API_KEY to your Streamlit Cloud Secrets.")
+    st.error("Missing GOOGLE_API_KEY in Secrets!")
     st.stop()
 
 # --- 4. SIDEBAR: FILE UPLOADER ---
@@ -61,7 +62,7 @@ if uploaded_file and process_button:
             chunks = text_splitter.split_documents(docs)
             
             # Use the most stable 2026 embedding model
-            embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+            embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004", google_api_key=user_api_key)
             
             # Create a vector store in memory (ephemeral for each session)
             vectorstore = Chroma.from_documents(
@@ -70,7 +71,7 @@ if uploaded_file and process_button:
             )
             
             # Initialize the LLM (Gemini 1.5 Flash is best for speed/cost)
-            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.2)
+            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.2, google_api_key=user_api_key)
             
             # Create the Retrieval Chain
             st.session_state.qa_chain = RetrievalQA.from_chain_type(
