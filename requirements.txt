@@ -1,8 +1,7 @@
-langchain-google-genai
-langchain
 streamlit
+langchain-google-genai
 langchain-community
-chromadb
+langchain
 pypdf
+chromadb
 pysqlite3-binary
-protobuf==3.20.3
